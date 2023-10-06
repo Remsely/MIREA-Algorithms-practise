@@ -11,7 +11,7 @@ public:
     string phoneNumber;
     string address;
 
-    Entry(const string& phone, const string& addr) : phoneNumber(phone), address(addr) {}
+    Entry(string  phone, string  addr) : phoneNumber(std::move(phone)), address(std::move(addr)) {}
 };
 
 
@@ -20,8 +20,8 @@ private:
     static const int TABLE_SIZE = 11;
     Entry* table[TABLE_SIZE]{};
 
-    int hashFunction(const string& key);
-    int quadraticProbe(int index, int attempt);
+    static int hashFunction(const string& key);
+    static int quadraticProbe(int index, int attempt);
 
 public:
     HashTable();
