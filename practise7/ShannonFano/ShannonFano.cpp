@@ -17,7 +17,7 @@ struct Node {
 
 vector<Node *> nodes;
 string inputStroke;
-string codePhrase;
+string codeStroke;
 
 bool compareNodesProbabilities(const Node *n1, const Node *n2) {
     return n1->probability > n2->probability;
@@ -87,18 +87,26 @@ void encodeShannonFano() {
     for (char character: inputStroke) {
         for (Node *node: nodes) {
             if (node->character == character)
-                codePhrase += node->code + " ";
+                codeStroke += node->code + " ";
         }
     }
 
-    cout << "Result: " << codePhrase << endl;
+    // Размер исходной строки и закодированной строки в байтах
+    size_t inputSize = inputStroke.size();
+    size_t encodedSize = codeStroke.size() / 8;  // Поскольку код Хаффмана использует биты, делим на 8 для байтов
+
+    // Вычисление коэффициента сжатия
+    double compressionRatio = static_cast<double>(inputSize) / static_cast<double>(encodedSize);
+
+    cout << "Result: " << codeStroke << endl;
+    cout << "Koef: " << compressionRatio << endl;
 }
 
 void decodeShannonFano() {
     string decodedResult;
     string currentCode;
 
-    for (char c: codePhrase) {
+    for (char c: codeStroke) {
         if (c == ' ')
             continue;
 
